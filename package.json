@@ -1,0 +1,21 @@
+{
+  "name": "rock-paper-scissors",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "parcel index.html",
+    "test": "jest 'test/**.js' --watchAll",
+    "eslint": "eslint"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jsdom-mount": "^0.1.0",
+    "parcel-bundler": "^1.12.3"
+  },
+  "devDependencies": {
+    "eslint": "^6.1.0",
+    "jest": "^24.8.0"
+  }
+}
