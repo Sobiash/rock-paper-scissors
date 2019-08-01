@@ -117,84 +117,79 @@ parcelRequire = (function (modules, cache, entry, globalName) {
   }
 
   return newRequire;
-})({"app.js":[function(require,module,exports) {
-var uScore = 0;
-var cScore = 0;
-var userScore = document.querySelector("#user-score");
-var computerScore = document.querySelector("#computer-score");
-var result = document.querySelector(".result");
-var rock = document.getElementById("rock");
-var paper = document.getElementById("paper");
-var scissors = document.getElementById("scissors");
+})({"node_modules/parcel-bundler/src/builtins/bundle-url.js":[function(require,module,exports) {
+var bundleURL = null;
 
-var getComputerChoice = function getComputerChoice() {
-  var choices = ["rock", "paper", "scissors"];
-  var randomNumber = Math.floor(Math.random() * choices.length);
-  return choices[randomNumber];
-};
-
-var game = function game(user, computer) {
-  if (user === computer) {
-    return "draw";
+function getBundleURLCached() {
+  if (!bundleURL) {
+    bundleURL = getBundleURL();
   }
 
-  if (user === "rock" && computer === "scissors" || user === "paper" && computer === "rock" || user === "scissors" && computer === "paper") {
-    return 1;
+  return bundleURL;
+}
+
+function getBundleURL() {
+  // Attempt to find the URL of the current script and use that as the base URL
+  try {
+    throw new Error();
+  } catch (err) {
+    var matches = ('' + err.stack).match(/(https?|file|ftp|chrome-extension|moz-extension):\/\/[^)\n]+/g);
+
+    if (matches) {
+      return getBaseURL(matches[0]);
+    }
   }
 
-  return 2;
-};
+  return '/';
+}
 
-var play = function play() {
-  if (rock) {
-    rock.addEventListener("click", function () {
-      var computer = getComputerChoice();
-      var val = game("rock", computer);
-      getOutput(val);
-    });
+function getBaseURL(url) {
+  return ('' + url).replace(/^((?:https?|file|ftp|chrome-extension|moz-extension):\/\/.+)\/[^/]+$/, '$1') + '/';
+}
+
+exports.getBundleURL = getBundleURLCached;
+exports.getBaseURL = getBaseURL;
+},{}],"node_modules/parcel-bundler/src/builtins/css-loader.js":[function(require,module,exports) {
+var bundle = require('./bundle-url');
+
+function updateLink(link) {
+  var newLink = link.cloneNode();
+
+  newLink.onload = function () {
+    link.remove();
+  };
+
+  newLink.href = link.href.split('?')[0] + '?' + Date.now();
+  link.parentNode.insertBefore(newLink, link.nextSibling);
+}
+
+var cssTimeout = null;
+
+function reloadCSS() {
+  if (cssTimeout) {
+    return;
   }
 
-  if (paper) {
-    paper.addEventListener("click", function () {
-      var computer = getComputerChoice();
-      var val = game("paper", computer);
-      getOutput(val);
-    });
-  }
+  cssTimeout = setTimeout(function () {
+    var links = document.querySelectorAll('link[rel="stylesheet"]');
 
-  if (scissors) {
-    scissors.addEventListener("click", function () {
-      var computer = getComputerChoice();
-      var val = game("scissors", computer);
-      getOutput(val);
-    });
-  }
-};
+    for (var i = 0; i < links.length; i++) {
+      if (bundle.getBaseURL(links[i].href) === bundle.getBundleURL()) {
+        updateLink(links[i]);
+      }
+    }
 
-var getOutput = function getOutput(val) {
-  if (val === 1) {
-    uScore++;
-    userScore.innerHTML = uScore;
-    return result.innerHTML = "<p>Congratulations! You win.</p>";
-  }
+    cssTimeout = null;
+  }, 50);
+}
 
-  if (val === 2) {
-    cScore++;
-    computerScore.innerHTML = cScore;
-    return result.innerHTML = "<p>Oops! Computer wins.</p>";
-  }
+module.exports = reloadCSS;
+},{"./bundle-url":"node_modules/parcel-bundler/src/builtins/bundle-url.js"}],"styles/styles.css":[function(require,module,exports) {
+var reloadCSS = require('_css_loader');
 
-  if (val === "draw") {
-    return result.innerHTML = "<p>It was a draw!</p>";
-  }
-};
-
-play();
-module.exports = {
-  game: game,
-  getComputerChoice: getComputerChoice
-};
-},{}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
+module.hot.dispose(reloadCSS);
+module.hot.accept(reloadCSS);
+},{"_css_loader":"node_modules/parcel-bundler/src/builtins/css-loader.js"}],"node_modules/parcel-bundler/src/builtins/hmr-runtime.js":[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 var OldModule = module.bundle.Module;
@@ -397,5 +392,5 @@ function hmrAcceptRun(bundle, id) {
     return true;
   }
 }
-},{}]},{},["node_modules/parcel-bundler/src/builtins/hmr-runtime.js","app.js"], null)
-//# sourceMappingURL=/app.c328ef1a.js.map
+},{}]},{},["node_modules/parcel-bundler/src/builtins/hmr-runtime.js"], null)
+//# sourceMappingURL=/styles.956d002c.js.map

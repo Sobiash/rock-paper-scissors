@@ -8,6 +8,10 @@ The project has unit tests which covers the main game features as well as get ra
 
 You can fork and clone the project and run `npm install` to install the external dependencies.
 
+## Install
+
+To use the prject, please download or clone the folder and then npm install to install the node_modules.
+
 ## Development
 
 This project use EditorConfig to standardize text editor configuration.
